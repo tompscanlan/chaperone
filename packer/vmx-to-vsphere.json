@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "version": "0.2",
+    "role": "chaperone",
+    "ssh_username": "vmware",
+    "ssh_password": "VMware1!",
+    "esx_host": "esx-mgmt-05a.corp.local",
+    "esx_username": "root",
+    "esx_password": "VMware1!",
+    "vsphere_cluster": "Management Cluster",
+    "vsphere_datacenter": "VIO Datacenter",
+    "esx_datastore": "ds-site-a-nfs01",
+    "vsphere_host": "vcsa-01a.vsphere.local",
+    "vsphere_password": "VMware1!",
+    "vsphere_username": "administrator@home.local",
+    "vsphere_network": "VIO-Management",
+    "vsphere_portgroupid": "dvportgroup-444",
+
+    "vmx": "~vmware/chaperone/packer/
+  },
+  "builders": [
+    {
+      "type": "vmware-vmx",
+      "source_path": "base-vmware/chaperone.vmx",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "shutdown_command": "sudo systemctl poweroff"
+
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vsphere",
+        "cluster": "{{user `vsphere_cluster` }}",
+        "datacenter": "{{user `vsphere_datacenter`}}",
+        "datastore": "{{user `esx_datastore`}}",
+        "host": "{{user `vsphere_host`}}",
+        "password": "{{user `vsphere_password`}}",
+        "username": "{{user `vsphere_username`}}",
+        "vm_name": "{{user `role`}}-{{user `version`}}"
+      }
+    ]
+  ]
+}
