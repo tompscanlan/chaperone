@@ -1,5 +1,5 @@
-Chaperone
-=========
+# Chaperone
+
 [![Build Status](https://travis-ci.org/vmware/chaperone.svg?branch=master)](https://travis-ci.org/vmware/chaperone)
 
 Chaperone is an Automation toolkit rooted in DevOps principals for deploying
@@ -94,7 +94,7 @@ The following are most of the sub-projects:
   - [docker-kibana](https://github.com/vmware/docker-kibana)
   - [docker-logstash-server](https://github.com/vmware/docker-logstash-server)
   - [docker-vrpt](https://github.com/vmware/docker-vrpt)
-  
+
 - Extras
   - External ansible roles.  For list, see the "other" [manifest](other.xml)
   - [docker-chaperone](https://github.com/vmware/docker-chaperone)
