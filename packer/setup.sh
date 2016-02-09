@@ -30,6 +30,33 @@ if grep Ubuntu /etc/lsb-release; then
 	echo -e 'VMware1!\nVMware1!' | passwd vmware
 fi
 
+# do host tools setup
+if [ ! -f /.dockerinit ]; then
+	# no host tools needed for docker
+
+	if sudo virt-what | grep -q vmware; then
+		sudo apt-get install -y git
+		git clone https://github.com/rasa/vmware-tools-patches.git
+		cd vmware-tools-patches
+		sudo ./patched-open-vm-tools.sh
+		cd ..
+		sudo rm -rf vmware-tools-patches
+	elif sudo virt-what | grep -q virtualbox; then
+		sudo apt-get install -y build-essential linux-headers-$(uname -r)
+
+		mkdir xxx
+		sudo mount -oloop VBoxGuestAdditions*.iso xxx
+		cd xxx
+		# force a true. this may fail to load X drivers,
+		# but those aren't needed
+		sudo bash ./VBoxLinuxAdditions.run || true
+		cd ..
+		sudo umount xxx
+		rmdir xxx
+		sudo rm -f VBoxGuestAdditions*.iso
+	fi
+fi
+
 # install easy_install on the way to ansible
 curl https://bootstrap.pypa.io/ez_setup.py | sudo python
 sudo easy_install pip
