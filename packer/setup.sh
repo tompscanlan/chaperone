@@ -27,7 +27,7 @@ if grep Ubuntu /etc/lsb-release; then
 
 	getent passwd vmware || sudo useradd -m vmware
 	sudo usermod -a -G admin vmware
-	echo -e 'VMware1!\nVMware1!' | passwd vmware
+	echo -e 'password\npassword' | sudo passwd vmware
 fi
 
 # do host tools setup
